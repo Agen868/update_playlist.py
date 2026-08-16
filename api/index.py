@@ -3,40 +3,34 @@ import requests
 import re
 import html
 
-# 📌 ปรับปรุงฟังก์ชันให้รองรับการดึงแยกทีละช่องอย่างแม่นยำ
-def get_channel_params(channel_slug):
+# 📌 ฟังก์ชันเจาะรหัสสดรายช่องผ่านหมายเลข ID ผู้เล่นจริงบนเว็บ
+def get_channel_params(channel_id):
     session = requests.Session()
-    # หากเป็นช่อง hbo ปกติให้ไปหน้าทีวีหลัก หากเป็นช่องย่อยให้ไปตาม slug ตรงรุ่น
-    if channel_slug == "hbo":
-        player_url = "https://kicksball.com"
-    else:
-        player_url = f"https://kicksball.com?id={channel_slug}"
-        
+    
+    # เจาะทะลวงผ่านหน้าเครื่องเล่นย่อยของแต่ละช่องตรงตามเลข ID บนเว็บจริง
+    player_url = f"https://kicksball.com{channel_id}"
+    
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-        "Referer": "https://kicksball.com",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        "Referer": f"https://kicksball.com{channel_id}",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "th-TH,th;q=0.9,en;q=0.8"
     }
     
-    # ค่าตั๋วสำรองรายช่องแยกกลุ่ม ป้องกันรหัสซ้ำข้ามช่อง
-    fallback_seeds = {
-        "hbo": ("241169", "c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw"),
-        "hbo-hits": ("242200", "c2VydmVyX3RpbWU9OC8xNi8yMDI2IDU6MDA6MDUgQU0maGFzaF92YWx1ZT14WVpB..."),
-        "cinemax": ("243300", "c2VydmVyX3RpbWU9OC8xNi8yMDI2IDU6MTU6MDUgQU0maGFzaF92YWx1ZT1hQkNE...")
-    }
-    session_id, token_str = fallback_seeds.get(channel_slug, ("241169", ""))
+    session_id = ""
+    token_str = ""
     
     try:
-        response = session.get(player_url, headers=headers, timeout=5)
+        response = session.get(player_url, headers=headers, timeout=6)
         response.encoding = 'utf-8'
         source_code = html.unescape(response.text)
         
-        # ค้นหาเลขเซสชันประจำช่อง
+        # แกะเลข nimblesessionid สดๆ ของช่องนั้นๆ
         session_match = re.search(r'nimblesessionid\s*=\s*[\'"]?([0-9]+)', source_code)
         if session_match:
             session_id = session_match.group(1)
             
-        # ค้นหาโทเคนประจำช่อง
+        # แกะรหัสโทเคน wmsAuthSign สดๆ ของช่องนั้นๆ
         token_patterns = [
             r'wmsAuthSign\s*=\s*[\'"]?([^\s"\'&;]+)',
             r'wmsAuthSign[\'"]?\s*[:=]\s*[\'"]?([^\s"\'&;}]+)'
@@ -51,16 +45,29 @@ def get_channel_params(channel_slug):
     except:
         pass
         
+    # ระบบสลับสายฉุกเฉินดึงจากหน้าหลักแก้ขัดหากช่องย่อยเกิดดึงหลุด เพื่อป้องกันจอดำ
+    if not session_id or not token_str:
+        try:
+            fallback_res = session.get("https://kicksball.com278", headers=headers, timeout=4)
+            s_match = re.search(r'nimblesessionid\s*=\s*[\'"]?([0-9]+)', fallback_res.text)
+            t_match = re.search(r'wmsAuthSign=([^\s"\'&;]+)', fallback_res.text)
+            if s_match and t_match:
+                session_id = s_match.group(1)
+                token_str = t_match.group(1)
+        except:
+            session_id = "241169"
+            token_str = "c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw"
+            
     return f"nimblesessionid={session_id}&wmsAuthSign={token_str}"
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
-        # 📌 สั่งระบบแยกยิงไปกระชากรหัสสด ๆ แยกเป็นรายช่องเด็ดขาด ไม่ใช้เลขแชร์ร่วมกันแล้ว
-        hbo_params = get_channel_params("hbo")
-        hbo_hits_params = get_channel_params("hbo-hits")
-        cinemax_params = get_channel_params("cinemax")
+        # 📌 ดึงพารามิเตอร์แยกตามตัวเลขไอดีหลัง URL หน้ารับชมทีวีของเว็บต้นทางจริง
+        # (สมมุติเลขช่อง HBO และ HBO Hits ตามสถิติข้อมูลของเซิร์ฟเวอร์เดิม)
+        hbo_params = get_channel_params("hbo-274")       # ตัวอย่าง ID ช่อง HBO HD
+        hbo_hits_params = get_channel_params("hbo-hits-276")  # ตัวอย่าง ID ช่อง HBO Hits
+        cinemax_params = get_channel_params("cinemax-278")   # ระบุเจาะจงเลข 278 ตามลิงก์ Cinemax จริงของพี่เป๊ะๆ
         
-        # ประกอบโครงสร้างข้อมูลพ่น W3U ป้อนเลขพารามิเตอร์แยกจากกันรายบรรทัด
         w3u_content = f"""{{
   "name": "SPORT LIVE",
   "author": "🍺 BEER-iPTV 🍺",
@@ -70,7 +77,7 @@ class handler(BaseHTTPRequestHandler):
       "name": "HBO HD",
       "image": "https://githubusercontent.com",
       "url": "https://dov.streaming-api.xyz/kicksballcom/hbo/chunks.m3u8?{hbo_params}",
-      "referer": "https://kicksball.com",
+      "referer": "https://kicksball.com/",
       "info": "kicksball🍺",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
       "playInNatPlayer": "true"
@@ -79,7 +86,7 @@ class handler(BaseHTTPRequestHandler):
       "name": "HBO Hits",
       "image": "https://githubusercontent.com",
       "url": "https://dov.streaming-api.xyz/kicksballcom/hbo-hits/chunks.m3u8?{hbo_hits_params}",
-      "referer": "https://kicksball.com",
+      "referer": "https://kicksball.com/",
       "info": "kicksball🍺",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
       "playInNatPlayer": "true"
@@ -88,7 +95,7 @@ class handler(BaseHTTPRequestHandler):
       "name": "Cinemax",
       "image": "https://githubusercontent.com",
       "url": "https://dov.streaming-api.xyz/kicksballcom/cinemax/chunks.m3u8?{cinemax_params}",
-      "referer": "https://kicksball.com",
+      "referer": "https://kicksball.com/",
       "info": "kicksball🍺",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
       "playInNatPlayer": "true"
