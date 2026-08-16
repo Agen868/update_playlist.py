@@ -6,7 +6,7 @@
     {
       "name": "HBO HD",
       "image": "https://githubusercontent.com",
-      "url": "https://dov.streaming-api.xyz/kicksballcom/hbo/playlist.m3u8?wmsAuthSign=nimblesessionid=241169&wmsAuthSign=c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw",
+      "url": "https://dov.streaming-api.xyz/kicksballcom/hbo/chunks.m3u8?nimblesessionid=241169&wmsAuthSign=c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw",
       "referer": "https://kicksball.com",
       "info": "kicksball🍺",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
@@ -15,7 +15,7 @@
     {
       "name": "HBO Hits",
       "image": "https://githubusercontent.com",
-      "url": "https://dov.streaming-api.xyz/kicksballcom/hbo-hits/playlist.m3u8?wmsAuthSign=nimblesessionid=241169&wmsAuthSign=c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw",
+      "url": "https://dov.streaming-api.xyz/kicksballcom/hbo-hits/chunks.m3u8?nimblesessionid=241169&wmsAuthSign=c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw",
       "referer": "https://kicksball.com",
       "info": "kicksball🍺",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
@@ -24,7 +24,7 @@
     {
       "name": "Cinemax",
       "image": "https://githubusercontent.com",
-      "url": "https://dov.streaming-api.xyz/kicksballcom/cinemax/playlist.m3u8?wmsAuthSign=nimblesessionid=241169&wmsAuthSign=c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw",
+      "url": "https://dov.streaming-api.xyz/kicksballcom/cinemax/chunks.m3u8?nimblesessionid=241169&wmsAuthSign=c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw",
       "referer": "https://kicksball.com",
       "info": "kicksball🍺",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
