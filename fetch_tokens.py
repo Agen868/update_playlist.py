@@ -51,7 +51,7 @@ def main():
     cinemax_res = get_channel_params_from_web("cinemax-278")
 
     # แผนสองสำรองระบบ: หากช่องย่อยดึงไม่ติด ให้ดึงจากสายแชร์และล็อกค่าตั๋วชุดล่าสุดของพี่แช่ไว้แก้ขัด
-    shared_fallback = "nimblesessionid=241169&wmsAuthSign=c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw"
+    shared_fallback = "nimblesessionid=244733&wmsAuthSign=c2VydmVyX3RpbWU9OC8xNi8yMDI2IDQ6NDc6MDUgQU0maGFzaF92YWx1ZT1iUUFDRloraW45bGxkTjV5WkRMYkJ3PT0mdmFsaWRtaW51dGVzPTIw"
     if not hbo_res: hbo_res = shared_fallback
     if not hbo_hits_res: hbo_hits_res = shared_fallback
     if not cinemax_res: cinemax_res = shared_fallback
