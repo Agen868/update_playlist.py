@@ -69,7 +69,7 @@ class handler(BaseHTTPRequestHandler):
     {{
       "name": "HBO HD",
       "image": "https://githubusercontent.com",
-      "url": "https://streaming-api.xyz?{hbo_params}",
+      "url": "https://dov.streaming-api.xyz/kicksballcom/hbo/chunks.m3u8?{hbo_params}",
       "referer": "https://kicksball.com",
       "info": "kicksball🍺",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
@@ -78,7 +78,7 @@ class handler(BaseHTTPRequestHandler):
     {{
       "name": "HBO Hits",
       "image": "https://githubusercontent.com",
-      "url": "https://streaming-api.xyz?{hbo_hits_params}",
+      "url": "https://dov.streaming-api.xyz/kicksballcom/hbo-hits/chunks.m3u8?{hbo_hits_params}",
       "referer": "https://kicksball.com",
       "info": "kicksball🍺",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
@@ -87,7 +87,7 @@ class handler(BaseHTTPRequestHandler):
     {{
       "name": "Cinemax",
       "image": "https://githubusercontent.com",
-      "url": "https://streaming-api.xyz?{cinemax_params}",
+      "url": "https://dov.streaming-api.xyz/kicksballcom/cinemax/chunks.m3u8?{cinemax_params}",
       "referer": "https://kicksball.com",
       "info": "kicksball🍺",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
